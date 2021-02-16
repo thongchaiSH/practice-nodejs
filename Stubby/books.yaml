@@ -1,0 +1,14 @@
+- request :
+    url: /books
+    method: GET
+
+  response:
+    status: 200
+    headers:
+      content-type: application/json
+      server: Thongchai Server
+    body: >
+      [
+          {"id":1,"name":"Java for us"},
+          {"id":2,"name":"Nodejs for us"},
+      ]
