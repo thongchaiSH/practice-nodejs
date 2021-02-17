@@ -36,6 +36,20 @@ app.use('/api', bookRoute);
 
 //Port
 const port = process.env.PORT || 8000;
-app.listen(port,()=>{
-    console.log('Listening on port'+port);
+app.listen(port, () => {
+    console.log('Listening on port' + port);
+})
+
+//404 Handler
+app.use((req,res,next)=>{
+    next(createError(404))
+})
+
+//error handler
+app.use((err,req,res,next)=>{
+    console.log(err.message);
+    if (!err.statusCode){
+        err.statusCode=500;
+    }
+    res.status(err.statusCode).send(err.message);
 })
