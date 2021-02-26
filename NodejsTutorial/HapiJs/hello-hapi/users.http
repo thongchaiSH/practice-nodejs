@@ -1,0 +1,24 @@
+@hostname = localhost
+@port = 5555
+@host = {{hostname}}:{{port}}
+
+
+### Get All Users
+GET http://{{host}}/users HTTP/1.1
+###
+
+### Get User by id
+GET http://{{host}}/users/1 HTTP/1.1
+###
+
+### Insert Users
+POST http://{{host}}/users HTTP/1.1
+content-type: application/json
+
+{
+    "id": 3,
+    "username": "thongchai",
+    "name": "thongchai",
+    "position": "Developer"
+}
+###
