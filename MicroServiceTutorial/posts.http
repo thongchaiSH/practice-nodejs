@@ -1,0 +1,16 @@
+@hostname = localhost
+@port = 4001
+@host = {{hostname}}:{{port}}
+
+### Get All post
+GET http://{{host}}/posts/64bf2f35/comments HTTP/1.1
+###
+
+### Create post
+POST http://{{host}}/posts/64bf2f35/comments HTTP/1.1
+Content-Type: application/json
+
+{
+    "content": "I am a comment"
+}
+###

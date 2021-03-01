@@ -1,0 +1,7 @@
+@hostname = localhost
+@port = 4001
+@host = {{hostname}}:{{port}}
+
+### Get All post
+GET http://{{host}}/posts/ HTTP/1.1
+###
