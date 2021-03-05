@@ -43,13 +43,14 @@ app.post("/events", async (req, res) => {
     const { postId, id, status, content } = data;
     const comments = commentsByPostId[postId];
 
-    const comment = comments.find((comment) => {
+    const comment = comments.find(comment => {
       return comment.id === id;
     });
     //update
     comment.status = status;
 
-    await axios.post("http://loclahost:4005/events", {
+    //send to even-bus
+    await axios.post("http://localhost:4005/events", {
       type: "CommentUpdated",
       data: {
         id,

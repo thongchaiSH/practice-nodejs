@@ -7,14 +7,32 @@ const app = exporess();
 app.use(bodyParser.json());
 app.use(cors());
 
+const events = [];
+
 app.post("/events", (req, res) => {
   const event = req.body;
-  axios.post("http://localhost:4000/events", event);
-  axios.post("http://localhost:4001/events", event);
-  axios.post("http://localhost:4002/events", event); //query service
-  axios.post("http://localhost:4003/events", event); //moderaion service
+
+  events.push(event);
+
+  axios.post("http://localhost:4000/events", event).catch((err) => {
+    console.log(err.message);
+  }); //Post
+  axios.post("http://localhost:4001/events", event).catch((err)=>{
+    console.log(err.message);
+  }); //Comment
+  axios.post("http://localhost:4002/events", event).catch((err)=>{
+    console.log(err.message);
+  }); //query service
+  axios.post("http://localhost:4003/events", event).catch((err)=>{
+    console.log(err.message);
+  }); //moderaion service
 
   res.send({ status: "OK" });
+});
+
+app.get("/events", (req, res) => {
+  console.log("Event sizr =", events);
+  res.send(events);
 });
 
 app.listen(4005, () => {
