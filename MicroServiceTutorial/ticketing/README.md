@@ -27,3 +27,8 @@ skaffold dev
 
 ## Note
 If chrome warning about ssl typeing 'thisisunsafe'
+
+## Kubectl
+```
+kubectl get services -n ingress-nginx
+```
