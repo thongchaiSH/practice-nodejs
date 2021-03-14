@@ -32,3 +32,17 @@ If chrome warning about ssl typeing 'thisisunsafe'
 ```
 kubectl get services -n ingress-nginx
 ```
+
+## Npm Registry
+```
+npm adduser
+npm publish --access public
+
+<!-- Update version -->
+npm version patch
+
+<!-- Publish -->
+npm version patch
+npm run build
+npm publish
+```

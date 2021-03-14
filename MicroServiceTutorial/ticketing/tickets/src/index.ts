@@ -6,10 +6,10 @@ const start = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY must be defind !!");
   }
-
   if (!process.env.MONGO_URI) {
     throw new Error("MONGO_URI must be defind !!");
   }
+  
 
   try {
     //connet mongo db
