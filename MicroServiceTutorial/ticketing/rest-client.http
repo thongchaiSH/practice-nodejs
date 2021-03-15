@@ -31,3 +31,28 @@ GET https://{{hostname}}/api/users/currentuser HTTP/1.1
 
 ### Logout
 POST https://{{hostname}}/api/users/signout HTTP/1.1
+
+### Create ticket
+POST https://{{hostname}}/api/tickets HTTP/1.1
+content-type: application/json
+
+{
+    "title": "titles2",
+    "price": 200
+} 
+
+
+### Get tickets
+GET https://{{hostname}}/api/tickets HTTP/1.1
+
+### Get ticket id
+GET https://{{hostname}}/api/tickets/604eed9636d2290018db2863 HTTP/1.1
+
+### Update 
+PUT https://{{hostname}}/api/tickets/604eed9636d2290018db2863 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "update",
+    "price": 999
+} 

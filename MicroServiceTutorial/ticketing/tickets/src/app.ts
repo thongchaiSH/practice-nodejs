@@ -3,8 +3,10 @@ import { json } from "body-parser";
 import cookieSession from "cookie-session";
 import express from "express";
 import "express-async-errors";
+import { indexTicketRouter } from "./routes/index";
 import { createTicketRouter } from "./routes/new";
 import { showTicketRouter } from "./routes/show";
+import { updateTicketRouter } from "./routes/update";
 
 
 
@@ -27,6 +29,8 @@ app.use(currentUser);
 //setup routes
 app.use(createTicketRouter);
 app.use(showTicketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 //setup 404 page
 app.all("*", async (req, res, next) => {
