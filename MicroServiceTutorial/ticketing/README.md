@@ -31,6 +31,15 @@ If chrome warning about ssl typeing 'thisisunsafe'
 ## Kubectl
 ```
 kubectl get services -n ingress-nginx
+
+<!-- Forward port -->
+kubectl port-forward nats-depl-5c9c48fc55-4ww76 4222:4222
+kubectl port-forward nats-depl-5c9c48fc55-4ww76 8222:8222
+```
+
+## NATS
+```
+http://localhost:8222/streaming
 ```
 
 ## Npm Registry
