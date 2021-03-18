@@ -49,7 +49,7 @@ GET https://{{hostname}}/api/tickets HTTP/1.1
 GET https://{{hostname}}/api/tickets/604eed9636d2290018db2863 HTTP/1.1
 
 ### Update 
-PUT https://{{hostname}}/api/tickets/604eed9636d2290018db2863 HTTP/1.1
+PUT https://{{hostname}}/api/tickets/6052f326f32c76004072f5b3 HTTP/1.1
 content-type: application/json
 
 {
