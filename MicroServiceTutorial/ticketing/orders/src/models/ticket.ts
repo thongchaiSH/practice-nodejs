@@ -1,7 +1,9 @@
-import mongoose from "mongoose";
-import { Order, OrderStatus } from "./order";
+import mongoose from 'mongoose';
+import { updateIfCurrentPlugin } from 'mongoose-update-if-current';
+import { Order, OrderStatus } from './order';
 
 interface TicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
@@ -9,14 +11,19 @@ interface TicketAttrs {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
-  build(atts: TicketAttrs): TicketDoc;
+  build(attrs: TicketAttrs): TicketDoc;
+  findByEvent(event: {
+    id: string;
+    version: number;
+  }): Promise<TicketDoc | null>;
 }
 
-const schema = new mongoose.Schema(
+const ticketSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -38,12 +45,24 @@ const schema = new mongoose.Schema(
   }
 );
 
-schema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs);
-};
+ticketSchema.set('versionKey', 'version');
+ticketSchema.plugin(updateIfCurrentPlugin);
 
-schema.methods.isReserved = async function () {
-  //this == the ticket document that we just called 'isReserved' on ticket
+ticketSchema.statics.findByEvent = (event: { id: string; version: number }) => {
+  return Ticket.findOne({
+    _id: event.id,
+    version: event.version - 1,
+  });
+};
+ticketSchema.statics.build = (attrs: TicketAttrs) => {
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
+};
+ticketSchema.methods.isReserved = async function () {
+  // this === the ticket document that we just called 'isReserved' on
   const existingOrder = await Order.findOne({
     ticket: this.id,
     status: {
@@ -54,9 +73,10 @@ schema.methods.isReserved = async function () {
       ],
     },
   });
-  return !!existingOrder
+
+  return !!existingOrder;
 };
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", schema);
+const Ticket = mongoose.model<TicketDoc, TicketModel>('Ticket', ticketSchema);
 
 export { Ticket };

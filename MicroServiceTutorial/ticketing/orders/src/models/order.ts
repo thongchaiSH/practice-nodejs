@@ -1,21 +1,23 @@
 import mongoose from "mongoose";
 import { OrderStatus } from "@ithongchai/common";
 import { TicketDoc } from "./ticket";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 export { OrderStatus };
 
 interface OrderAttrs {
   userId: string;
   status: OrderStatus;
-  expireAt: Date;
+  expiresAt: Date;
   ticket: TicketDoc;
 }
 
 interface OrderDoc extends mongoose.Document {
   userId: string;
   status: OrderStatus;
-  expireAt: Date;
+  expiresAt: Date;
   ticket: TicketDoc;
+  version:number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -34,7 +36,7 @@ const orderSchema = new mongoose.Schema(
       enum: Object.values(OrderStatus),
       default: OrderStatus.Created,
     },
-    expireDate: {
+    expiresAt: {
       type: mongoose.Schema.Types.Date,
     },
     ticket: {
@@ -51,6 +53,9 @@ const orderSchema = new mongoose.Schema(
     },
   }
 );
+
+orderSchema.set("versionKey", "version");
+orderSchema.plugin(updateIfCurrentPlugin);
 
 orderSchema.statics.build = (attrs: OrderAttrs) => {
   return new Order(attrs);

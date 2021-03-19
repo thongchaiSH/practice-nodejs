@@ -3,6 +3,7 @@ import { app } from "../../app";
 import mongoose from "mongoose";
 import { Order, OrderStatus } from "../../models/order";
 import { Ticket } from "../../models/ticket";
+import { natsWrapper } from "../../nats-wrapper";
 
 it("returns an error if the ticket does not exits", async () => {
   const ticketId = mongoose.Types.ObjectId();
@@ -17,6 +18,7 @@ it("returns an error if the ticket does not exits", async () => {
 
 it("returns an error if the ticket already reserved", async () => {
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -25,7 +27,7 @@ it("returns an error if the ticket already reserved", async () => {
     ticket,
     userId: "xxxxxxxx",
     status: OrderStatus.AwaitingPayment,
-    expireAt: new Date(),
+    expiresAt: new Date(),
   });
   await order.save();
 
@@ -39,21 +41,37 @@ it("returns an error if the ticket already reserved", async () => {
 });
 
 it("reserved a ticket", async () => {
-
   const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
   await ticket.save();
 
-  
   await request(app)
     .post("/api/orders")
-    .set("Cookie",global.signin())
+    .set("Cookie", global.signin())
     .send({
       ticketId: ticket.id,
     })
     .expect(201);
 });
 
-it.todo('emits an order created event');
+it("emits an order created event", async () => {
+  const ticket = Ticket.build({
+    id: mongoose.Types.ObjectId().toHexString(),
+    title: "concert",
+    price: 20,
+  });
+  await ticket.save();
+
+  await request(app)
+    .post("/api/orders")
+    .set("Cookie", global.signin())
+    .send({
+      ticketId: ticket.id,
+    })
+    .expect(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});

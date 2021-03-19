@@ -1,11 +1,10 @@
 import request from "supertest";
 import { app } from "../../app";
-import mongoose from "mongoose";
-import { Order, OrderStatus } from "../../models/order";
 import { Ticket } from "../../models/ticket";
-
+import mongoose from 'mongoose';
 const buildTicket = async () => {
   const ticket = Ticket.build({
+    id:mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -39,7 +38,7 @@ it("fetchs orders for an particular user", async () => {
     .send({ ticketId: ticketThree.id })
     .expect(201);
 
-  console.log(orderOne);
+  // console.log(orderOne);
 
   //Make request to get oders for User #2
   const response = await request(app)
