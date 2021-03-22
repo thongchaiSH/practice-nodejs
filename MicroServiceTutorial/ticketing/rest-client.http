@@ -56,3 +56,12 @@ content-type: application/json
     "title": "update",
     "price": 99
 } 
+
+
+### Create Order
+POST https://{{hostname}}/api/orders HTTP/1.1
+content-type: application/json
+
+{
+    "ticketId":"605889d337610600184b962a"
+} 
