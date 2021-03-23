@@ -63,5 +63,19 @@ POST https://{{hostname}}/api/orders HTTP/1.1
 content-type: application/json
 
 {
-    "ticketId":"605889d337610600184b962a"
+    "ticketId":"6059ca89d20cac001893a9d6"
+} 
+
+### Get Orders
+GET https://{{hostname}}/api/orders HTTP/1.1
+
+
+
+### Create Payments
+POST https://{{hostname}}/api/payments HTTP/1.1
+content-type: application/json
+
+{
+    "orderId":"6059ca95817ee70018fd01d1",
+    "token":"tok_visa"
 } 

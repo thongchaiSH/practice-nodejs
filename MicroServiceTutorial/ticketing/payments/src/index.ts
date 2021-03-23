@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import { app } from "./app";
 import { natsWrapper } from "./nats-wrapper";
-import { OrderCreatedListener } from "./events/listeners/order-created-listener";
 import { OrderCancelledListener } from "./events/listeners/order-cancelled-listener";
+import { OrderCreatedListener } from "./events/listeners/order-created-listener";
+
 const start = async () => {
   //validate enviroment variable
   if (!process.env.JWT_KEY) {
@@ -21,6 +22,9 @@ const start = async () => {
     throw new Error("NATS_URL must be defind !!");
   }
 
+  if(!process.env.STRIPE_KEY){
+    throw new Error("STRIPE_KEY must be defind !!");
+  }
   try {
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
@@ -28,7 +32,7 @@ const start = async () => {
       process.env.NATS_URL
     );
     //graceful shutdown
-    natsWrapper.client.on("close", () => { 
+    natsWrapper.client.on("close", () => {
       console.log("NATS connection closed!!");
       process.exit();
     });
