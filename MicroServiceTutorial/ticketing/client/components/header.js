@@ -4,6 +4,9 @@ export default ({ currentUser }) => {
   const links = [
     !currentUser && { label: "Sign Up", href: "/auth/signup" },
     !currentUser && { label: "Sign In", href: "/auth/signin" },
+    currentUser && { label: "Sell Ticket", href: "/tickets/new" },
+    currentUser && { label: "My Orders", href: "/orders" },
+
     currentUser && { label: "Sign Out", href: "/auth/signout" },
   ]
     .filter((linkConfig) => linkConfig)
@@ -11,7 +14,7 @@ export default ({ currentUser }) => {
       return (
         <li key={href} className="nav-item">
           <Link href={href}>
-                <a  className="nav-link">{label}</a>
+            <a className="nav-link">{label}</a>
           </Link>
         </li>
       );

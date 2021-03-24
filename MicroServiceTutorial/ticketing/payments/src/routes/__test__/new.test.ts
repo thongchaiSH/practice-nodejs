@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import { Order } from "../../models/order";
 import { OrderStatus } from "@ithongchai/common";
 import { stripe } from "../../stripe";
+import { Payment } from "../../models/payment";
 
 it("returns 404 when purchasing an order that does not exist", async () => {
   await request(app)
@@ -58,7 +59,7 @@ it("retuens a 400 ", async () => {
     .expect(400);
 });
 
-it("return a 204 with valid inpits", async () => {
+it("return a 201 with valid inpits", async () => {
   const userId = mongoose.Types.ObjectId().toHexString();
   const price = Math.floor(Math.random() * 100000);
   const order = Order.build({
@@ -90,4 +91,10 @@ it("return a 204 with valid inpits", async () => {
 
   expect(sripteCharge!.amount).toEqual(order.price);
   expect(sripteCharge!.currency).toEqual("usd");
+
+  const payment = await Payment.findOne({
+    orderId: order.id,
+    stripeId: sripteCharge!.id,
+  });
+  expect(payment).not.toBeNull();
 });
