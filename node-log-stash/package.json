@@ -1,0 +1,25 @@
+{
+  "name": "node-log-stash",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
+  "dependencies": {
+    "bunyan": "^1.8.15",
+    "bunyan-logstash": "^0.3.4",
+    "bunyan-logstash-tcp": "^1.0.0",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "km-log4js-logstash-tcp": "^1.0.4",
+    "log4js": "^6.3.0",
+    "log4js-logstash": "^0.2.3",
+    "log4js-logstash-tcp": "^2.0.0",
+    "morgan": "~1.9.1",
+    "winston-logstash": "^0.4.0",
+    "winston3-logstash-transport": "^1.2.3"
+  }
+}
